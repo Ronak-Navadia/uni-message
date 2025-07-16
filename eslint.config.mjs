@@ -1,23 +1,18 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
-
 export default tseslint.config(
   {
     ignores: ['eslint.config.mjs'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
+  // prettier recommended plugin config spreads Prettier rules and plugin
+  prettierRecommended,
   {
     languageOptions: {
       globals: {
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: 'commonjs',
+      sourceType: 'module', // NestJS uses ES modules by default, but adjust if you use commonjs
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -29,6 +24,8 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
+      // Make sure prettier errors are shown as errors
+      'prettier/prettier': 'error',
     },
   },
 );
