@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { buildMongoOptions } from './configs/mongo.config';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { buildMongoOptions } from './configs/mongo.config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => buildMongoOptions(configService),
     }),
+    UserModule,
+    AuthModule,
 
   ],
   controllers: [AppController],
